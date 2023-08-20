@@ -1,2 +1,2 @@
-# osdscapstone
+# DSCapstone
 Data Science Capstone Project
