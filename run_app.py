@@ -39,11 +39,16 @@ scalers = streamlit_load_scalers()
 
 
 #Load the saved model from the pickle file
+image_model1 = load_model('Virage_Odyssey_model.h5')
+image_model2 = load_model('bmw_gmc_model.h5')
+#image_model3 = load_model('range_c30_model.h5')
+image_models = [image_model1,image_model2] 
 
-image_models = [] 
 
-
-label_mappin = []
+label_mappings1 = np.load('Virage_Odyssey_model_label_mappings.npy', allow_pickle=True).tolist()
+label_mappings2 = np.load('bmw_gmc_model_label_mappings.npy', allow_pickle=True).tolist()
+#label_mappings3 = np.load('range_c30_model_label_mappings.npy', allow_pickle=True).tolist()
+label_mappin = [label_mappings1, label_mappings2]
     
 #Load the saved models from the pickle files
 def load_models():
@@ -529,7 +534,7 @@ def predict_make_model_image(model, label_mapping,processed_image):
     predicted_classes = [label_mapping[idx] for idx in predicted_class_indices]
     return predicted_classes[0]
 
-def predict_image_class(model, label_mapping, image, confidence_threshold=0.9):
+def predict_image_class(model, label_mapping, image, confidence_threshold=0.9999):
     predictions = model.predict(np.expand_dims(image, axis=0))
     top_class_idx = np.argmax(predictions)
     top_probability = predictions[0][top_class_idx]
@@ -538,7 +543,6 @@ def predict_image_class(model, label_mapping, image, confidence_threshold=0.9):
         predicted_class = label_mapping[top_class_idx]
         return predicted_class
     return None
-
 
 #The Main function
 if __name__ == '__main__':
